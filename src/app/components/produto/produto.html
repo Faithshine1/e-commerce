@@ -2,7 +2,7 @@
 <div> 
 @for(item of produtos; track item){
    <div>
-        <h3>Produto: {{ item.produto|uppercase}}</h3>
+        <h3> {{ item.produto|uppercase}}</h3>
         <p>{{ item.preco|precoFormatado }}</p>
    </div>
 }
