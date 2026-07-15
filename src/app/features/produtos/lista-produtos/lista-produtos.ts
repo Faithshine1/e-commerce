@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import {Produto } from '../produto/produto'; //Import do componente Produto
-
+import {Produto } from '../produto/produto';
 @Component({
   selector: 'app-lista-produtos',
   imports: [Produto],
