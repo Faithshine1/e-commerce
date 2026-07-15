@@ -36,3 +36,4 @@ export class ListaProdutos {
     console.log('Produto selecionado: ', nome);
   }
 }
+//adiciona lista de produtos com nome e preço, e exibe no console o produto selecionado.
