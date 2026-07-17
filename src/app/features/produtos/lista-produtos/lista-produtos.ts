@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
@@ -40,7 +40,8 @@ export class ListaProdutos {
   ]);
 
   exibirProduto(nome: string) {
-    console.log('Produto selecionado: ', nome);
+    //console.log('Produto selecionado: ', nome);
+    this.produtoSelecionado.set(nome);
   }
 
   adicionarProduto() { 
@@ -60,4 +61,21 @@ substituirProduto(nomeAntigo: string, nomeNovo: string, precoNovo: number) {
       {nome: 'Feijão Timbiras', preco: 15.99},
     ]);
   }
+  constructor(){
+  effect(() => {
+    console.log('Lista de Produtos Alterados: ', this.produtos());
+
+  });
+  effect(() =>{
+    console.log('Valor Total Atualizados: ', this.valorTotal());
+
+  });
+  effect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = `(${this.totalProdutos()}) Minha Loja`;
+
+    }
+  });
+ }
+ produtoSelecionado = signal <string | null > (null);
 }
