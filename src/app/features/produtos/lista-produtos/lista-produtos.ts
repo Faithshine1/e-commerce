@@ -2,39 +2,29 @@ import { Component, effect, signal } from '@angular/core';
 import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+import { UpperCasePipe } from '@angular/common';
 @Component({
   selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe],
+  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
   produtos = signal ([
-    { nome: 'Monitor Gamer',
-      preco: 199.99 },
-  
-    { nome: 'Smartphone', 
-      preco: 1599.99 
+    { nome: 'Teclado Gamer',
+      preco: 149.00
     },
-    { nome: 'Tablet', 
-      preco: 12.99 
-    },
-    { nome: 'Notebook Gamer', 
-      preco: 2500.00 
-    },
-    { nome: 'Teclado Mecânico', 
-      preco: 299.99 },
     { nome: 'Mouse Gamer', 
-      preco: 149.99 
+      preco: 299.99
+    },
+    { nome: 'Monitor Gamer', 
+      preco: 1599.99
+    },
+    { nome: 'Desktop Gamer', 
+      preco: 4999.99 
     },
     { nome: 'Headset Gamer', 
-      preco: 89.99 
-    },
-    { nome: 'Cadeira Gamer', 
-      preco: 499.99 
-    },
-    { nome: 'Placa de Vídeo', 
-      preco: 1999.99 
+      preco:  699.99
     },
 
   ]);
@@ -46,7 +36,7 @@ export class ListaProdutos {
 
   adicionarProduto() { 
     this.produtos.update((listaAtual) => [
-      ...listaAtual, { nome: 'PlayStation 5', preco: 6500.00 },
+      ...listaAtual, { nome: 'Processador Core I5 14550FS', preco: 2500.00 },
     ]);
   }
   totalProdutos = computed(() => this.produtos().length);
@@ -57,8 +47,11 @@ export class ListaProdutos {
   });
 substituirProduto(nomeAntigo: string, nomeNovo: string, precoNovo: number) {
     this.produtos.set([
-      {nome: 'Arroz Fazenda', preco: 12.99},
-      {nome: 'Feijão Timbiras', preco: 15.99},
+      {nome: 'Teclado', preco: 40.00},
+       {nome: 'Mouse', preco: 10.00},
+        {nome: 'Monitor', preco: 100.00},
+         {nome: 'Desktop', preco: 500.00},
+          {nome: 'Headset', preco: 20.00},
     ]);
   }
   constructor(){
@@ -78,4 +71,16 @@ substituirProduto(nomeAntigo: string, nomeNovo: string, precoNovo: number) {
   });
  }
  produtoSelecionado = signal <string | null > (null);
+ carrinho = signal<({nome: string; preco: number}[])>([]);
+ adicionarAoCarrinho(produto: {nome: string; preco: number}){
+    this.carrinho.update(listaAtual => 
+      [...listaAtual, produto]);}
+
+quantidadeCarrinho = computed(() => this.carrinho().length);
+
+totalCarrinho = computed(()=> {
+  return this.carrinho().reduce((total, item) => 
+   total+item.preco,0);
+});
+
 }
