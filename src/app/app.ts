@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
+import { usuarioLogado, login, logout } from './core/auth';
 //!import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos';
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, RouterLink],
@@ -10,4 +12,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 export class App {
   protected readonly title = signal('e-commerce');
   nomeLoja = 'MARTINS TECH'; //nome do e-commerce
+  usuarioLogado = usuarioLogado;
+  login = login;
+  logout = logout;
 }
