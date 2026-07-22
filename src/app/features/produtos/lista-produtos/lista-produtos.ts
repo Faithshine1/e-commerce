@@ -30,7 +30,7 @@ export class ListaProdutos {
   ]);
 
   exibirProduto(nome: string) {
-    //console.log('Produto selecionado: ', nome);
+    console.log('Produto selecionado: ', nome);
     this.produtoSelecionado.set(nome);
   }
 
@@ -45,7 +45,7 @@ export class ListaProdutos {
     return this.produtos().reduce
     ((total, item) => total + item.preco, 0);
   });
-substituirProduto(nomeAntigo: string, nomeNovo: string, precoNovo: number) {
+substituirProduto() {
     this.produtos.set([
       {nome: 'Teclado', preco: 40.00},
        {nome: 'Mouse', preco: 10.00},
