@@ -3,6 +3,7 @@ import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { UpperCasePipe } from '@angular/common';
+import { HttpClient} from '@angular/common/http';
 @Component({
   selector: 'app-lista-produtos',
   imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
@@ -10,24 +11,40 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produtos = signal ([
-    { nome: 'Teclado Gamer',
-      preco: 149.00
-    },
-    { nome: 'Mouse Gamer', 
-      preco: 299.99
-    },
-    { nome: 'Monitor Gamer', 
-      preco: 1599.99
-    },
-    { nome: 'Desktop Gamer', 
-      preco: 4999.99 
-    },
-    { nome: 'Headset Gamer', 
-      preco:  699.99
-    },
 
-  ]);
+  //!remover a lista de produtos, dados carregados via API Fakestoreapi
+ produtos = signal <
+ { nome: string; preco: number } []> ([]);
+ //? criar estado de carregamento, 
+ // ** true: requisição em andamento, exibir indicador no template
+ //! false: esconder indicador e exibir lista de produtos 
+ carregando = signal(true);
+
+//! criar o método para a requisição dos produtos
+carregarProdutos(){
+
+  //! Iniciar Loading
+  this.carregando.set(true);
+  this.http.get <{title: string; price: number}[]>
+    ('https://fakestoreapi.com/products')
+      .subscribe({
+          next:(dados) => {
+
+            //!Adapta a API para nosso Projeto
+            const produtosFormatados = dados.map(p => ({
+              nome: p.title,
+              preco:p.price
+            }));
+            this.produtos.set(produtosFormatados);
+            this.carregando.set(false); 
+          },
+          //? Finaliza loading
+          error: (erro) =>{
+            console.error('Erro ao carregar produtos: ', erro);
+            this.carregando.set(false); //! Evita Loading infinitos
+          }
+      });
+}
 
   exibirProduto(nome: string) {
     console.log('Produto selecionado: ', nome);
@@ -51,10 +68,16 @@ substituirProduto() {
        {nome: 'Mouse', preco: 10.00},
         {nome: 'Monitor', preco: 100.00},
          {nome: 'Desktop', preco: 500.00},
-          {nome: 'Headset', preco: 20.00},
+          {nome: 'Headset', preco: 25.00 },
     ]);
   }
-  constructor(){
+  //! injetar httpClient dentro de constructor, reestruturar constructor!!!
+  constructor( private http: HttpClient ){
+
+    //! Carregar a API
+    this.carregarProdutos();
+
+    //! effects continuam iguais
   effect(() => {
     console.log('Lista de Produtos Alterados: ', this.produtos());
 
@@ -70,6 +93,7 @@ substituirProduto() {
     }
   });
  }
+ 
  produtoSelecionado = signal <string | null > (null);
  carrinho = signal<({nome: string; preco: number}[])>([]);
  adicionarAoCarrinho(produto: {nome: string; preco: number}){
