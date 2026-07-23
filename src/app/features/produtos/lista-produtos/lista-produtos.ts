@@ -3,7 +3,9 @@ import { Produto } from '../produto/produto';
 import { computed } from '@angular/core';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 import { UpperCasePipe } from '@angular/common';
-import { HttpClient} from '@angular/common/http';
+import { produtoService } from '../produto.service';
+import { inject } from '@angular/core';
+
 @Component({
   selector: 'app-lista-produtos',
   imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
@@ -20,31 +22,27 @@ export class ListaProdutos {
  //! false: esconder indicador e exibir lista de produtos 
  carregando = signal(true);
 
+//? MÉTODO HTTP (API) FOI MODIFICADO PARA (ProdutoService)
+
 //! criar o método para a requisição dos produtos
 carregarProdutos(){
 
-  //! Iniciar Loading
   this.carregando.set(true);
-  this.http.get <{title: string; price: number}[]>
-    ('https://fakestoreapi.com/products')
-      .subscribe({
-          next:(dados) => {
 
-            //!Adapta a API para nosso Projeto
-            const produtosFormatados = dados.map(p => ({
-              nome: p.title,
-              preco:p.price
-            }));
-            this.produtos.set(produtosFormatados);
-            this.carregando.set(false); 
-          },
-          //? Finaliza loading
-          error: (erro) =>{
-            console.error('Erro ao carregar produtos: ', erro);
-            this.carregando.set(false); //! Evita Loading infinitos
-          }
-      });
+  this.produtoService.buscarProdutos().subscribe({
+        next: (dados) => {
+          const produtos = this.produtoService.transformarProdutos(dados);
+          this.produtos.set(produtos);
+          this.carregando.set(false);
+        },
+        error: (erro) => {
+          console.error('Erro ao carregar os Produtos: ', erro);
+          this.carregando.set(false);
+        },
+  });
 }
+
+//? =========== MÉTODOS EXISTENTES Ñ ALTERAR =============
 
   exibirProduto(nome: string) {
     console.log('Produto selecionado: ', nome);
@@ -72,7 +70,7 @@ substituirProduto() {
     ]);
   }
   //! injetar httpClient dentro de constructor, reestruturar constructor!!!
-  constructor( private http: HttpClient ){
+  constructor(){
 
     //! Carregar a API
     this.carregarProdutos();
@@ -107,4 +105,6 @@ totalCarrinho = computed(()=> {
    total+item.preco,0);
 });
 
+//? ================ INJECT ====================
+private produtoService = inject (produtoService);
 }
