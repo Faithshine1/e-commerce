@@ -15,19 +15,21 @@ import { inject } from '@angular/core';
 export class ListaProdutos {
 
   //!remover a lista de produtos, dados carregados via API Fakestoreapi
- produtos = signal <
- { nome: string; preco: number } []> ([]);
+ produtos = signal < { nome: string; preco: number } []> ([]);
  //? criar estado de carregamento, 
  // ** true: requisição em andamento, exibir indicador no template
  //! false: esconder indicador e exibir lista de produtos 
  carregando = signal(true);
 
-//? MÉTODO HTTP (API) FOI MODIFICADO PARA (ProdutoService)
+ erro = signal <string | null> (null)
+
+//?============= MÉTODO HTTP (API) FOI MODIFICADO PARA (ProdutoService) =================
 
 //! criar o método para a requisição dos produtos
 carregarProdutos(){
 
-  this.carregando.set(true);
+  this.carregando.set(true);//! Ativa Loading
+  this.erro.set(null)//? Limpa o erro anterior
 
   this.produtoService.buscarProdutos().subscribe({
         next: (dados) => {
@@ -37,12 +39,13 @@ carregarProdutos(){
         },
         error: (erro) => {
           console.error('Erro ao carregar os Produtos: ', erro);
+          this.erro.set('Erro ao carregar Produtos. Verifique sua conexão e tente novamente.');
           this.carregando.set(false);
         },
   });
 }
 
-//? =========== MÉTODOS EXISTENTES Ñ ALTERAR =============
+//? ================= MÉTODOS EXISTENTES Ñ ALTERAR =====================
 
   exibirProduto(nome: string) {
     console.log('Produto selecionado: ', nome);
@@ -69,6 +72,7 @@ substituirProduto() {
           {nome: 'Headset', preco: 25.00 },
     ]);
   }
+
   //! injetar httpClient dentro de constructor, reestruturar constructor!!!
   constructor(){
 
