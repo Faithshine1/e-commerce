@@ -1,11 +1,4 @@
-<!-- <h2>
-Produto Selecionado: 
-@if (produtoSelecionado()){
-    <strong style="color: green">
-        {{ produtoSelecionado() }}</strong>
-}@else { 
-    <span style="color: gray">Nenhum produto selecionado</span>
-}
+<!-- 
 </h2>
 
 <h2>Produtos:</h2>
@@ -30,9 +23,19 @@ Produto Selecionado:
 <h3>Valor total: {{ valorTotal() | precoFormatado }}</h3>
 <p><button (click)="substituirProduto()">Substituir Produto</button></p>
  
- -->
+  -->
 
- <h2>Produtos:</h2>
+ <h2> Produtos:
+ @if (produtoSelecionado()){
+    <strong style="color: green">
+        {{ produtoSelecionado() }}</strong>
+}@else { 
+    <span style="color: gray">Nenhum produto selecionado</span>
+
+}
+</h2>
+
+
   <!--Estado 1: Loading-->
 @if (carregando()) {
     <p>Carregando Produtos...</p>
