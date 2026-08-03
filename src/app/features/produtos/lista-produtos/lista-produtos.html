@@ -7,7 +7,7 @@ Produto Selecionado:
     <span style="color: gray">Nenhum produto selecionado</span>
 }
 </h2>
-<--
+
 <h2>Produtos:</h2>
 @if (carregando()) {
     <p>Carregando Produtos...</p>
@@ -45,16 +45,18 @@ Produto Selecionado:
   }
  <!--Estado 3: Sucesso-->
  @if (!carregando() && !erro()){
-    <p>Total de Produtos: {{ totalProdutos }}</p>
+    <p>Total de Produtos: {{ totalProdutos() }}</p>
 
     <hr>
 @for(item of produtos(); track $index){
     <app-produto 
         [nome] = "item.nome"
         [preco] = "item.preco"
+        (produtoSelecionado)="exibirProduto($event)"
         >
-    
+
     </app-produto>
+    <!-- <button (click)="adicionarAoCarrinho(item)"> Adicionar ao Carrinho </button> -->
     }
 }
 
