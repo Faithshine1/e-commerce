@@ -1,4 +1,4 @@
-<h2>
+<!-- <h2>
 Produto Selecionado: 
 @if (produtoSelecionado()){
     <strong style="color: green">
@@ -22,7 +22,7 @@ Produto Selecionado:
         ></app-produto>
 
         
-        <button (click)="adicionarAoCarrinho(item)">Adicionar ao carrinho"</button>
+        
     } 
 },
 <p><button (click)="adicionarProduto()">Adicionar Produto</button></p>
@@ -30,7 +30,7 @@ Produto Selecionado:
 <h3>Valor total: {{ valorTotal() | precoFormatado }}</h3>
 <p><button (click)="substituirProduto()">Substituir Produto</button></p>
  
-
+ -->
 
  <h2>Produtos:</h2>
   <!--Estado 1: Loading-->
@@ -53,6 +53,7 @@ Produto Selecionado:
         [nome] = "item.nome"
         [preco] = "item.preco"
         (produtoSelecionado)="exibirProduto($event)"
+        (produtoAdicionado)="adicionarAoCarrinho($event)"
         >
 
     </app-produto>
@@ -67,4 +68,6 @@ Produto Selecionado:
 }
 <p><strong>Itens no Carrinho: </strong> {{ quantidadeCarrinho() }}</p>
 <p><strong>Total no carrinho: </strong>{{ totalCarrinho() | precoFormatado}}</p>
+
+
 <!--adiciona botao para colocar os produtos no carrinho e também adiciona tabela de preço dos itens no carrinho-->
