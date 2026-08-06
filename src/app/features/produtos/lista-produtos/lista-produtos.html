@@ -51,6 +51,7 @@
     <p>Total de Produtos: {{ totalProdutos() }}</p>
 
     <hr>
+    <section class = "grid-produtos">
 @for(item of produtos(); track $index){
     <app-produto 
         [nome] = "item.nome"
@@ -62,15 +63,17 @@
     </app-produto>
     <!-- <button (click)="adicionarAoCarrinho(item)"> Adicionar ao Carrinho </button> -->
     }
+    </section>
+
 }
 
 
 <h2>Carrinho</h2>
-@for (item of carrinho(); track $index){
+@for (item of carrinhoService.itens(); track $index){
     <p>{{ item.nome | uppercase }} - {{ item.preco | precoFormatado }}</p>
 }
-<p><strong>Itens no Carrinho: </strong> {{ quantidadeCarrinho() }}</p>
-<p><strong>Total no carrinho: </strong>{{ totalCarrinho() | precoFormatado}}</p>
+<p><strong>Itens no Carrinho: </strong> {{ carrinhoService.quantidadeItens() }}</p>
+<p><strong>Total no carrinho: </strong>{{ carrinhoService.totalItens() | precoFormatado}}</p>
 
 
 <!--adiciona botao para colocar os produtos no carrinho e também adiciona tabela de preço dos itens no carrinho-->
