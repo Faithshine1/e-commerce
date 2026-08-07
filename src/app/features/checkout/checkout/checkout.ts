@@ -22,9 +22,18 @@ export class Checkout {
     endereco: new FormControl('', [Validators.required, Validators.minLength(5)]),
   });
   finalizar (){
-    console.log('Dados do Formulário: ', this.formulario.value)
-    console.log('Itens do Carrinho: ', this.carrinhoService.itens())
+    if (this.formulario.invalid){
+      console.log('Formulário Invalido!');
+      return;
+    }
+
+    const dados = this.formulario.value;
+    const itens = this.carrinhoService.itens();
+
+    console.log('Dados do Formulário: ', dados);
+    console.log('Itens do Carrinho: ', itens);
   }
+  
 }
 function nomeSemNumeros(control: AbstractControl):ValidationErrors | null {
   const valor= control.value;
