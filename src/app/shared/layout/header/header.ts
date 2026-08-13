@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
-import {MatToolbarModule} from '@angular/material/toolbar'
-import {MatIconModule} from '@angular/material/icon'
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import {RouterLink} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule}  from '@angular/material/toolbar';
+import { RouterLink, Router } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
+import { inject } from '@angular/core';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,21 @@ import { CarrinhoService } from '../../../core/services/carrinho.service';
   styleUrl: './header.css',
 })
 export class Header {
-  nomeLoja = 'MARTINS TECH';
-  public carrinhoService = inject(CarrinhoService);
+  nomeLoja = 'MARTINS TECH'; //? nome do ecommerce
+
+  private carrinhoService = inject(CarrinhoService);
   quantidade = this.carrinhoService.quantidadeItens;
+  private authService = inject(AuthService);
+
+  usuarioLogado = this.authService.usuarioLogado;
+  usuarioAtual = this.authService.usuarioAtual;
+
+  private router = inject(Router);
+
+  sair(){
+    this.authService.logout();
+    this.router.navigateByUrl('/login');
+  }
+  
+
 }
