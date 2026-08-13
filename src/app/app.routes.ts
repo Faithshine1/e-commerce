@@ -1,55 +1,90 @@
 // // import { Routes } from '@angular/router';
-// // //import {ListaProdutos}from './features/produtos/lista-produtos/lista-produtos'
+// // //import { ListaProdutos } from './features/produtos/lista-produtos/lista-produtos'; //codigo legado
 // // import { Carrinho } from './features/carrinho/carrinho/carrinho';
-// // import {Home} from './features/home/home/home';
-
+// // //import { Component } from '@angular/core';
+// // import { Home } from './features/home/home/home';
+// // //import path from 'path';
+// // //add um novo import
 // // export const routes: Routes = [
+
+// //     //
 // //     {
-// //         path: '',
-// //         component: Home,
+// //         path:'',
+// //         component: Home, 
 // //     },
-// //     //Código Legado com LazyLoading
-// //     // {
-// //     //     path: 'produtos',
-// //     //     component: ListaProdutos,
-// //     // },
+// // //cODIGO LEGADO LAZYLOADING
+// //     //{
+// //     //    path:'produtos',
+// //     //    component: ListaProdutos,
+// //     //},
 
 // //     {
-// //         path: 'carrinho',
-// //         component: Carrinho,
-// //     }
-// // ];
+// //           path:'produtos',
+// //           loadcomponent: () => 
+// //             import ('./features/produtos/lista-produtos/lista-produtos'.then(m =>m.ListaProdutos))
 
-//!Código Final LazyLoading e LoadComponents
+// //     },
+// // {
+// //        path:'carrinho',
+// //        component: Carrinho,
+// // },
+// // ]
+//! Importações 
+
 import { Routes } from "@angular/router";
-import { authGuard } from "./core/auth.guard";
+import { authGuard } from "./core/services/auth.guard";
+import { adminGuard } from "./core/services/admin.guard";
 
 export const routes: Routes = [
-    {
-        path: '',
-        loadComponent: () => 
-            import ('./features/home/home/home').then((m) =>m.Home),
-    },
-     {
-       path: 'produtos',
-       loadComponent: () =>
-            import ('./features/produtos/lista-produtos/lista-produtos').then((m) => m.ListaProdutos),
-   },
-   {
-      path: 'carrinho',
-      canActivate: [authGuard],
-      loadComponent: () =>
-            import ('./features/carrinho/carrinho/carrinho').then((m) =>m.Carrinho),
-   },
-   {
-     path: 'checkout',
-     loadComponent: () =>
-        import('./features/checkout/checkout/checkout').then((m) => m.Checkout),
-   },
 
-   {
-    path: '**',
-    redirectTo: '',
-   },
+{
+   path:'',
+   loadComponent: () =>
+       import('./features/home/home/home').then((m) =>m.Home),
+
+},
+
+{
+   path:'produtos',
+   loadComponent: () =>
+       import('./features/produtos/lista-produtos/lista-produtos').then((m) =>m.ListaProdutos),
+
+},
+
+{
+   path:'carrinho',
+   canActivate: [authGuard],
+   loadComponent: () =>
+       import('./features/carrinho/carrinho/carrinho').then((m) =>m.Carrinho),
+
+},
+{
+   path: 'checkout',
+   loadComponent: () =>
+      import ('./features/checkout/checkout/checkout').then((m) =>m.Checkout ),
+},
+{
+   path:'login',
+   loadComponent: ()=>
+      import ('./features/login/login/login').then((m) => m.Login),
+},
+{
+   path:'admin',
+   canActivate: [adminGuard],
+   loadComponent: () =>
+   import('./features/admin/admin/admin').then((m) => m.Admin),
+},
+
+{
+   path:'acesso-negado',
+   loadComponent: () =>
+   import('./features/acesso-negado/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
+},
+
+{
+   path:'**',
+   redirectTo: '',
+
+},
 
 ];
