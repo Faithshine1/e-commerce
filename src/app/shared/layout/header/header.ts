@@ -4,9 +4,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule}  from '@angular/material/toolbar';
 import { RouterLink, Router } from '@angular/router';
 import { UpperCasePipe } from '@angular/common';
-import { inject } from '@angular/core';
-import { CarrinhoService } from '../../../core/services/carrinho.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { inject, Injectable} from '@angular/core';
+import { AuthFacade } from '../../../core/facades/auth.facade';
+import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
+
 
 @Component({
   selector: 'app-header',
@@ -17,17 +18,17 @@ import { AuthService } from '../../../core/services/auth.service';
 export class Header {
   nomeLoja = 'MARTINS TECH'; //? nome do ecommerce
 
-  private carrinhoService = inject(CarrinhoService);
-  quantidade = this.carrinhoService.quantidadeItens;
-  private authService = inject(AuthService);
+  private carrinhoFacade = inject(CarrinhoFacade);
+  quantidade = this.carrinhoFacade.quantidadeCarrinho;
+  private authFacade = inject(AuthFacade);
 
-  usuarioLogado = this.authService.usuarioLogado;
-  usuarioAtual = this.authService.usuarioAtual;
+  usuarioLogado = this.authFacade.usuarioLogado;
+  usuarioAtual = this.authFacade.usuarioAtual;
 
   private router = inject(Router);
 
   sair(){
-    this.authService.logout();
+    this.authFacade.sair();
     this.router.navigateByUrl('/login');
   }
   
