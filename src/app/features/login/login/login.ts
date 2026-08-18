@@ -10,7 +10,7 @@ import { AuthFacade } from '../../../core/facades/auth.facade';
   styleUrl: './login.css',
 })
 export class Login {
-  private authFacade = inject(AuthFacade);
+  private authService = inject(AuthFacade);
   private router = inject(Router);
 
   errologin = signal(false);
@@ -28,14 +28,14 @@ export class Login {
 
     const email = this.formulario.value.email ?? '';
     const senha = this.formulario.value.senha ?? '';
-    const loginRealizado = this.authFacade.realizarLogin(email, senha);
+    const loginRealizado = this.authService.realizarLogin(email, senha);
 
     if(!loginRealizado){
       this.errologin.set(true);
       return;
     }
 
-    if(this.authFacade.admin()){
+    if(this.authService.admin()){
       this.router.navigateByUrl('/admin');
       return;
     }

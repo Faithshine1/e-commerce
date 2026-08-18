@@ -8,12 +8,7 @@ export const authGuard: CanActivateFn = () => {
     const router = inject(Router);
 
     if(!authFacade.usuarioLogado()){
+        return true;
+    }
     return router.createUrlTree(['/login']);
 }
-//!
-if(!authFacade.admin()){
-    return router.createUrlTree(['/acesso-negado']);
-}
-//!
-return true;
-};

@@ -10,7 +10,7 @@ import { AuthFacade } from '../../../core/facades/auth.facade';
 })
 export class Admin {
 
-  private authfacade = inject(AuthFacade);
+  private authFacade = inject(AuthFacade);
   private router = inject(Router);
 
   //! SIMULAÇÂO = Indicadores
@@ -19,18 +19,18 @@ export class Admin {
   usuariosCadastrados = signal(8);
   
 
-  usuarioAtual = this.authfacade.usuarioAtual;
+  usuarioAtual = this.authFacade.usuarioAtual;
 
   mensagemPerfil = computed(() => {
-    const usuario =this.usuarioAtual();
+    const usuario = this.usuarioAtual();
     if (!usuario){
       return('Nenhum usuário Autenticado!')
     }
-    return `Usuário autenicado como: $(usuario.perfil)`
+    return `{Usuário autenicado como: ${usuario.perfil}`;
   });
 
   sair(){
-    this.authfacade.sair(),
-    this.router.navigateByUrl('/login')
+    this.authFacade.sair();
+    this.router.navigateByUrl('/login');
   }
 }

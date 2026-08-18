@@ -8,17 +8,26 @@ import { Validators } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 import { ValidationErrors } from '@angular/forms';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
+import { RouterLink } from "@angular/router";
+import { AuthFacade } from '../../../core/facades/auth.facade';
+import { Router } from '@angular/router'
+import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
 
 
 @Component({
   selector: 'app-checkout',
-  imports: [ ReactiveFormsModule, ],
+  imports: [ReactiveFormsModule, RouterLink, PrecoFormatadoPipe],
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
 export class Checkout { 
 
   carrinhoFacade = inject(CarrinhoFacade);
+  router = inject (Router);
+  authFacade = inject (AuthFacade)
+
+
+
   formulario = new FormGroup({
     nome: new FormControl('', [Validators.required, Validators.minLength(3), nomeSemNumeros]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -28,7 +37,7 @@ export class Checkout {
   finalizar () {
     this.compraFinalizada.set(false);
     if(this.carrinhoFacade.carrinhoVazio()){
-      console.log('Não é possível finalizar a compra vom o carrinho vazio!');
+      console.log('Não é possível finalizar a compra com o carrinho vazio!');
       return; 
     }
     if(this.formulario.invalid) {
@@ -53,6 +62,11 @@ export class Checkout {
     }
 
   compraFinalizada = signal(false);
+
+  sair(){
+    this.authFacade.sair();
+    this.router.navigateByUrl('/login');
+  }
 }
 function nomeSemNumeros(control: AbstractControl): ValidationErrors | null {
   const valor = control.value;

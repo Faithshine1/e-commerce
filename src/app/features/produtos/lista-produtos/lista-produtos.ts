@@ -8,6 +8,8 @@ import { inject } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
+import { ItemCarrinho } from '../../../core/models/item-carrinho';
+
 
 @Component({
   selector: 'app-lista-produtos',
@@ -101,7 +103,7 @@ substituirProduto() {
  
  produtoSelecionado = signal <string | null > (null);
  
- adicionarAoCarrinho(produto: {nome: string; preco: number}){
+ adicionarAoCarrinho(produto:ItemCarrinho){
     this.carrinhoFacade.adicionarProdutoCarrinho(produto);
   }
 
