@@ -3,6 +3,62 @@
     grid-template-columns: 1fr;
     gap: 16px;
 }
+
+.pagina-produtos{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cabecalho-produtos{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cabecalho-produtos h2 {
+    margin-bottom: 4px;
+}
+
+.resumo-produtos{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #fafafa;
+}
+
+.mensagem-erro {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: #fff5f5;
+}
+
+
+.produto-selecionado{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.texto-sucesso{
+    color: gray;
+    font-weight: bold;
+}
+
+.texto-neutro {
+    color: gray;
+    font-weight: bold;
+}
+
+.rodape div{
+    background-color: #005cbb;
+    padding: 30px
+}
+
+
+
+
 /*Breakpoints: Mobile (android e IOS) e Tablet até 600px*/
 @media(min-width: 600px){
     .grid-produtos{
