@@ -7,12 +7,23 @@ import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AbstractControl } from '@angular/forms';
 import { ValidationErrors } from '@angular/forms';
+//import { CarrinhoService } from '../../../core/services/carrinho.service';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
-import { RouterLink } from "@angular/router";
 import { AuthFacade } from '../../../core/facades/auth.facade';
-import { Router } from '@angular/router'
+import { RouterLink } from "@angular/router";
+import { Router } from '@angular/router';
 import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
+// import { MatAnchor } from "@angular/material/button";
+import { ItemCarrinho } from '../../../core/models/item-carrinho';
 
+
+type PedidoFinalizado = {
+  codigo: number;
+  cliente: string;
+  quantidadeItens: number;
+  total: number;
+  itens: ItemCarrinho []; 
+}
 
 @Component({
   selector: 'app-checkout',
@@ -20,13 +31,18 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
+
+
+
+
 export class Checkout { 
 
+  pedidoFinalizado =signal < PedidoFinalizado | null >(null);
+  // compraFinalizada = signal(false);
+
   carrinhoFacade = inject(CarrinhoFacade);
-  router = inject (Router);
-  authFacade = inject (AuthFacade)
-
-
+  router = inject(Router);
+  authFacade = inject(AuthFacade);
 
   formulario = new FormGroup({
     nome: new FormControl('', [Validators.required, Validators.minLength(3), nomeSemNumeros]),
@@ -35,9 +51,11 @@ export class Checkout {
   });
 
   finalizar () {
-    this.compraFinalizada.set(false);
+    this.pedidoFinalizado.set(null);
+    // this.compraFinalizada.set(false);
+
     if(this.carrinhoFacade.carrinhoVazio()){
-      console.log('Não é possível finalizar a compra com o carrinho vazio!');
+      console.log('Não é possível finalizar a compra vom o carrinho vazio!');
       return; 
     }
     if(this.formulario.invalid) {
@@ -47,21 +65,29 @@ export class Checkout {
     }
     const dados = this.formulario.value;
     const itens = this.carrinhoFacade.itensCarrinho();
-    const total = this.carrinhoFacade.quantidadeCarrinho();
+    const total = this.carrinhoFacade.totalCarrinho();
     
+    const pedido: PedidoFinalizado = {
+      codigo: Date.now(),
+      cliente: dados.nome ?? '',
+      quantidadeItens: itens.length,
+      total,
+      itens,
+    }
+
     console.log('Compra Finalizada com sucesso! ');
     console.log('Dados do Formulário:', dados);
-    console.log('Itens do Carrinho:', itens);
-    console.log('Total da compra: ', total);
+    console.log('Pedido', pedido);
     
     this.carrinhoFacade.limparCarrinho();
     this.formulario.reset();
-    this.compraFinalizada.set(true);
+    // this.compraFinalizada.set(true);
+    this.pedidoFinalizado.set(pedido);
 
 
     }
 
-  compraFinalizada = signal(false);
+  
 
   sair(){
     this.authFacade.sair();
