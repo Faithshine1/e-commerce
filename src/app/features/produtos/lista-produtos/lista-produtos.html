@@ -1,14 +1,14 @@
- <h2> Produtos:
- @if (produtoSelecionado()){
-    <strong style="color: green">
-        {{ produtoSelecionado() }}</strong>
-}@else { 
-    <span style="color: gray">Nenhum produto selecionado</span>
+ <section class="pagina-produtos">
+    <header class="cabecalho-produtos">
+        <div>
+            <h2>Produtos</h2>
+            <p>Escolha os produtos e adicione-os ao carrinho</p>
+        </div>
+        <button mat-stroked-button color="primary" type="button" routerLink="/carrinho">
+            Ver Carrinho ({{carrinhoFacade.quantidadeCarrinho()}})</button>
+    </header>
 
-}
-</h2>
-
-
+ </section>
   <!--Estado 1: Loading-->
 @if (carregando()) {
     <p>Carregando Produtos...</p>
@@ -19,9 +19,24 @@
     <p style="color: red;">{{ erro() }}</p>
     <button (click)="carregarProdutos()">Tentar novamente</button>
   }
+
  <!--Estado 3: Sucesso-->
  @if (!carregando() && !erro()){
     <p>Total de Produtos: {{ totalProdutos() }}</p>
+
+ @if (erro()){
+    <section class =mensagem-erro>
+ <p>{{ erro ()}}</p>
+ <button mat-stroked-button color="primary" (click)="carregarProdutos()"></button>
+
+    </section>
+
+    <div class="conteinar-erro">
+        <p style="color:red;">{{erro()}}
+
+        </p>
+    </div>
+ }
 
     <hr>
     <section class = "grid-produtos">
@@ -37,5 +52,4 @@
     <!-- <button (click)="adicionarAoCarrinho(item)"> Adicionar ao Carrinho </button> -->
     }
     </section>
-
 }
