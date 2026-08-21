@@ -1,3 +1,7 @@
+<section class="pagina-checkout">
+
+</section>
+
 <h2>Checkout</h2>
 
 @if(pedidoFinalizado()){
@@ -7,7 +11,7 @@
         <p><strong>Cliente:</strong>{{pedidoFinalizado()?.cliente}}</p>
         <p><strong>Quantidade:</strong>{{pedidoFinalizado()?.quantidadeItens}}</p>
         <p><strong>Total:</strong>{{pedidoFinalizado()?.total}}</p>
-        <button type="button" routerLink="/produto">Voltar para compras</button>
+        <button mat-raised-button color="primary" type="button" routerLink="/produto">Voltar para compras</button>
     </section>
 }
 
@@ -15,7 +19,7 @@
     <section class="carrinho-vazio">
         <h3>Seu carrinho está vazio</h3>
         <p>Adicione Produtos antes de finalizar sua compra</p>
-        <button type="button" routerLink="/produtos"></button>
+        <button mat-raised-button color="primary" type="button" routerLink="/produtos">Ver produtos</button>
     </section>
 
 }@else if(!pedidoFinalizado()){
@@ -23,19 +27,20 @@
         <h3>Resumo do pedido</h3>
         <p><strong>Itens do Carrinho:</strong>{{ carrinhoFacade.quantidadeCarrinho() }}</p>
         <p><strong>Total:</strong>{{carrinhoFacade.totalCarrinho() | precoFormatado}}</p> 
-        <button type="button" routerLink="/carrinho"> Revisar Carrinho</button>
+        <button mat-raised-button color="primary" type="button" routerLink="/carrinho"> Revisar Carrinho</button>
       
     </section>
 
 }
 <hr>
-<form [formGroup]="formulario">
+
+<form [formGroup]="formulario" class="form">
 
     <!-- NOME -->
 <p><input type="text" formControlName="nome" placeHolder="Nome"></p>
 @if(formulario.get('nome')?.touched && formulario.get('nome')?.invalid){
     @if(formulario.get('nome')?.errors?.['required']){
-        <small style="color: red;">Nome é Obrigatório</small>
+        <small >Nome é Obrigatório</small>
     }
 }
 @if(formulario.get('nome')?.errors?.['minlength']){
@@ -67,7 +72,7 @@
     <small style="color: red;">Endereço Inválido</small>
 }
 
-
+<h3>Finalizar Compra</h3>
 <br>
-<button type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar Compra</button>
+<button mat-raised-button color="primary" type="button" (click)="finalizar()" [disabled]="formulario.invalid">Finalizar Compra</button>
 </form>
