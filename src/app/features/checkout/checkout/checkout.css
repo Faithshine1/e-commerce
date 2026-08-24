@@ -1,71 +1,66 @@
 .pagina-checkout{
-    max-width: 700px;
+    max-width: 700px ;
 }
-
 .compra-finalizada{
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 16px;
-    margin: 16px 0;
+    border: 1px solid #ddd ;
+    border-radius: 10px ;
+    padding: 16px ;
+    margin: 16px ;
     text-align: center;
 }
 .carrinho-vazio{
-    border: 1px solid #ffb2bf;
-    border-radius: 10px;
-    padding: 16px;
+    border: 1px solid #ffb2b2;
+    border-radius: 10px ;
+    padding: 16px ;
     margin: 16px 0;
+    background-color: #fccccf;
     text-align: center;
-    background-color: #fccc;
-    
-
 }
 .carrinho-vazio h3{
-    color: red;
-    font-weight: bold;
-    
+   color: red;
+   font-weight: bold;
 }
 .carrinho-vazio p{
     color: red;
 }
-
 .carrinho-vazio button {
-    color: #fff;
-    background-color: #ff3232;
+    color: #ccc;
+    color: #ff3232;
 }
-
 .resumo-pedido{
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 16px;
-    margin: 16px 0; 
-    text-align: center;
+    margin: 16px 0;
 }
-
 .resumo-pedido h3{
     font-size: 20px;
     margin-top: 16px;
+    text-align: center;
 }
-.resumo-pedido p{
+.resumo-pedido{
     font-size: 16px;
+    text-align: center;
 }
 
-.form{
+form{
     max-width: 700px;
     text-align: center;
 }
-.form h3{
-    text-align: center;
-}
 input{
-    width: 100%;
+    width: 170%;
     border: 1px solid #c9c9c9;
     border-radius: 25px;
-    padding: 10px;
+    padding: 16px;
     box-sizing: border-box;
     text-align: center;
 }
-small{
-    display: block;
-    color: red;
+.compra-f{
+    width: 170%;
 }
 
+small{
+    display: block;
+    color:red;
+    margin-bottom: 8px;
+}
