@@ -27,7 +27,13 @@ export class Produto {
     adicionarAoCarrinho() {
       this.produtoAdicionado.emit({nome: this.nome, preco: this.preco});
     }
- }
+    @Output() 
+    favoritarProduto = new EventEmitter<ItemCarrinho>
+      adicionarAoFavorito(){
+        this.favoritarProduto.emit({nome: this.nome, preco: this.preco})
+      }
+    }
+ 
 
  //{
   //nome: string;
