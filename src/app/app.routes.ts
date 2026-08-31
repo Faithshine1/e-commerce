@@ -34,6 +34,8 @@
 import { Routes } from "@angular/router";
 import { authGuard } from "./core/guards/auth.guard";
 import { adminGuard } from "./core/guards/admin.guard";
+import { features } from "process";
+import { Favoritos } from "./features/produtos/favoritos/favoritos";
 
 export const routes: Routes = [
 
@@ -80,6 +82,12 @@ export const routes: Routes = [
    path:'acesso-negado',
    loadComponent: () =>
    import('./features/acesso-negado/acesso-negado/acesso-negado').then((m) => m.AcessoNegado),
+},
+
+{
+   path:'favoritos',
+   loadComponent: () =>
+   import('./features/produtos/favoritos/favoritos').then((m)=> m.Favoritos),
 },
 
 {
