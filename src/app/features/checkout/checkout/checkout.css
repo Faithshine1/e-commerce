@@ -58,6 +58,10 @@ input{
 .compra-f{
     width: 170%;
 }
+.final-compra{
+width: 170%;
+border: 1px solid rgb(78, 78, 78);
+}
 
 small{
     display: block;
